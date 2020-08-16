@@ -8,6 +8,18 @@ const MAX_WIDTH_BREAKPOINT = 720;
 export class SideNavComponent implements OnInit {
 
   private mediaMatcher:MediaQueryList = matchMedia(`(max-width: ${MAX_WIDTH_BREAKPOINT}px)`);
+  links = [
+    {
+      name: 'Invoices',
+      url: 'invoices'
+    },
+    {
+      name: 'Clients',
+      url: 'clients'
+    }
+  ]
+
+
   constructor(zone: NgZone) {
     this.mediaMatcher.addListener(() => {
       zone.run(() => this.mediaMatcher = matchMedia(`(max-width: ${MAX_WIDTH_BREAKPOINT}px)`))

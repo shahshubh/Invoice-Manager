@@ -30,7 +30,6 @@ export class SideNavComponent implements OnInit {
   }
 
   isScreenSmall(){
-    console.log(this.mediaMatcher.matches);
     return this.mediaMatcher.matches;
   }
 

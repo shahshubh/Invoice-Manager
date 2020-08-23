@@ -1,5 +1,18 @@
-<div class="example-container mat-elevation-z8">
+<mat-toolbar>
+  <h3>Invoices</h3>
+  <div class="menu-bar" >
+    <button mat-button (click) ="saveBtnHandler()" >
+      New Invoice
+    </button>
+  </div>
+</mat-toolbar>
+<div class="table-container mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource">
+
+    <!-- <ng-container matColumnDef="sr">
+      <mat-header-cell *matHeaderCellDef> Sr </mat-header-cell>
+      <mat-cell *matCellDef="let invoice"> {{invoice.pos}} </mat-cell>
+    </ng-container> -->
 
     <ng-container matColumnDef="item">
       <mat-header-cell *matHeaderCellDef> Item </mat-header-cell>
@@ -33,6 +46,30 @@
       <mat-header-cell *matHeaderCellDef> Tax </mat-header-cell>
       <mat-cell *matCellDef="let invoice"> {{invoice.tax}} </mat-cell>
     </ng-container>
+
+
+    <ng-container matColumnDef="action">
+      <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+      <mat-cell *matCellDef="let invoice">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item>
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </mat-cell>
+    </ng-container>
+
+    
+
+
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

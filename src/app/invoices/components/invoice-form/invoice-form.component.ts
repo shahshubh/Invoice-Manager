@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { InvoiceService } from '../../services/invoice.service';
 import { MatSnackBar } from '@angular/material';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Invoice } from '../../models/invoice';
 
 @Component({
   selector: 'app-invoice-form',
@@ -12,27 +13,71 @@ import { Router } from '@angular/router';
 export class InvoiceFormComponent implements OnInit {
 
   invoiceForm: FormGroup;
+  invoice: Invoice;
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
     private snackBar : MatSnackBar,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit() {
     this.createForm();
+    this.setInvoiceToForm();
+  }
+
+  cancelBtnHandler(){
+    this.router.navigate(['dashboard','inovices']);
   }
 
   onSubmit(){
-    this.snackBar.open('Invoice created successfully!', 'Success', {
-      duration: 2000,
-    });
-    this.invoiceService.createInvoice(this.invoiceForm.value).subscribe(
-      data => {
-        this.invoiceForm.reset();
-        this.router.navigate(['dashboard','inovices']);
-      }, err => this.errorHandler(err, 'Failed to create invoice!')
-    );
+
+    if(this.invoice){
+      //edit invoice
+      this.invoiceService.updateInvoice(this.invoice._id, this.invoiceForm.value).subscribe(
+        data => {
+          this.snackBar.open('Invoice updated successfully!', 'Success', {
+            duration: 2000,
+            verticalPosition: 'top',
+            horizontalPosition: 'end'
+          });
+          this.router.navigate(['dashboard','inovices']);
+        },
+        err => this.errorHandler(err,'Failed to update invoice!')
+      );
+    } else{
+      //create new invoice
+      this.invoiceService.createInvoice(this.invoiceForm.value).subscribe(
+        data => {
+          this.snackBar.open('Invoice created successfully!', 'Success', {
+            duration: 2000,
+            verticalPosition: 'top',
+            horizontalPosition: 'end'
+          });
+          this.invoiceForm.reset();
+          this.router.navigate(['dashboard','inovices']);
+        }, err => this.errorHandler(err, 'Failed to create invoice!')
+      );
+    }
+  }
+
+  setInvoiceToForm(){
+    this.route.params.subscribe(
+      params => {
+        let id = params['id'];
+        if(!id){
+          return;
+        }
+        this.invoiceService.findInvoice(id).subscribe(
+          invoice => {
+            this.invoice = invoice;
+            this.invoiceForm.patchValue(this.invoice);
+          },
+          err => this.errorHandler(err, 'Failed to get invoice!')
+        )
+      }
+    )
   }
 
   createForm(){
@@ -49,7 +94,9 @@ export class InvoiceFormComponent implements OnInit {
   private errorHandler(error, message){
     console.error(error);
     this.snackBar.open(message, 'Error', {
-      duration: 2000
+      duration: 2000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end'
     });
   }
 

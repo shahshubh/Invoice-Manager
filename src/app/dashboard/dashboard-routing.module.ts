@@ -19,6 +19,10 @@ const routes: Routes = [
         component: InvoiceFormComponent
       },
       {
+        path: 'invoices/:id',
+        component: InvoiceFormComponent
+      },
+      {
         path: 'clients',
         component: ClientListingComponent
       },

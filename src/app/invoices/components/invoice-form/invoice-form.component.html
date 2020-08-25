@@ -34,10 +34,16 @@
       <input matInput placeholder="Rate" type="number" formControlName="rate" >
     </mat-form-field>
 
-    <div>
-      <button mat-raised-button [disabled]="!invoiceForm.valid"  type="submit" color="accent" >Save</button>
-      <button mat-raised-button type="reset" >Cancel</button>
+    <div class="button-container" >
+      <div>
+        <button mat-raised-button [disabled]="!invoiceForm.valid"  type="submit" color="accent" >Save</button>
+        <button mat-raised-button type="reset">Reset</button>
+      </div>
+      <div>
+        <button mat-raised-button type="button" class="back-button" (click)="cancelBtnHandler()" >Go back</button>
+      </div>
     </div>
+
   
   </form>
 </mat-card>

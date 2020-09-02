@@ -74,4 +74,13 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
+
+  <mat-paginator #paginator 
+              [length]="resultsLength"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25]"
+              [showFirstLastButtons]="true">
+  </mat-paginator>
+
+
 </div>

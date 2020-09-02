@@ -6,5 +6,12 @@ export class Invoice {
     date: Date;
     due: Date;
     tax: number;
+}
 
+export class InvoicePaginationRsp{
+    docs: Invoice[];
+    total: number;
+    pages: number;
+    page: number;
+    limit: number;
 }

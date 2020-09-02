@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
 import { Invoice } from '../../models/invoice';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatPaginator } from '@angular/material';
 import { remove } from 'lodash';
+import 'rxjs/Rx';
 
 @Component({
   selector: 'app-invoice-listing',
@@ -20,7 +21,9 @@ export class InvoiceListingComponent implements OnInit {
 
   displayedColumns = ['item', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
   dataSource: Invoice[] = [];
+  resultsLength = 0;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   saveBtnHandler(){
     this.router.navigate(['dashboard','invoices','new']);
@@ -48,10 +51,28 @@ export class InvoiceListingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.invoiceService.getInvoices().subscribe(
+
+    this.paginator.page.flatMap(
+      data => {
+        return this.invoiceService.getInvoices({ page: ++data.pageIndex, perPage:data.pageSize })
+      }
+    )
+    .subscribe(
+      data => {
+        this.dataSource = data.docs;
+        this.resultsLength = data.total;
+      }, 
+      err => this.errorHandler(err, 'Failed to load invoices')
+    )
+    this.populateInvoices();
+  }
+
+  private populateInvoices(){
+    this.invoiceService.getInvoices({ page: 1, perPage: 10 }).subscribe(
       data => {
         // data.forEach((e,i) => e.pos = i+1, data);
-        this.dataSource = data;
+        this.dataSource = data.docs;
+        this.resultsLength = data.total;
       }, 
       err => this.errorHandler(err, 'Failed to load invoices')
     );

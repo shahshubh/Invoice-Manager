@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
 import { Invoice } from '../../models/invoice';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatPaginator } from '@angular/material';
+import { MatSnackBar, MatPaginator, MatSort } from '@angular/material';
 import { remove } from 'lodash';
 import 'rxjs/Rx';
 
@@ -22,8 +22,10 @@ export class InvoiceListingComponent implements OnInit {
   displayedColumns = ['item', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
   dataSource: Invoice[] = [];
   resultsLength = 0;
+  isLoading = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   saveBtnHandler(){
     this.router.navigate(['dashboard','invoices','new']);
@@ -51,34 +53,79 @@ export class InvoiceListingComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.isLoading = true;
     this.paginator.page.flatMap(
       data => {
-        return this.invoiceService.getInvoices({ page: ++data.pageIndex, perPage:data.pageSize })
+        return this.invoiceService.getInvoices(
+          { 
+            page: this.paginator.pageIndex,
+            perPage: this.paginator.pageSize,
+            sortField:this.sort.active,
+            sortDir: this.sort.direction 
+          }
+        )
       }
     )
     .subscribe(
       data => {
         this.dataSource = data.docs;
         this.resultsLength = data.total;
+        this.isLoading = false;
       }, 
       err => this.errorHandler(err, 'Failed to load invoices')
-    )
+    );
+
+
+    this.sort.sortChange.flatMap(() => {
+      // this.isLoading = true;
+      this.paginator.pageIndex = 0;
+      return this.invoiceService.getInvoices(
+        { 
+          page: this.paginator.pageIndex,
+          perPage: this.paginator.pageSize,
+          sortField:this.sort.active,
+          sortDir: this.sort.direction 
+        }
+      )
+    })
+    .subscribe(
+      data => {
+        this.dataSource = data.docs;
+        this.resultsLength = data.total;
+        // this.isLoading = false;
+      }, 
+      err => this.errorHandler(err, 'Failed to load invoices')
+    );
+
+    
     this.populateInvoices();
   }
 
+  ngAfterViewInit(){
+    
+  }
+
   private populateInvoices(){
-    this.invoiceService.getInvoices({ page: 1, perPage: 10 }).subscribe(
+    this.isLoading = true;
+    this.invoiceService.getInvoices({ 
+      page: this.paginator.pageIndex,
+      perPage: this.paginator.pageSize,
+      sortField: this.sort.active,
+      sortDir: this.sort.direction
+    }).subscribe(
       data => {
         // data.forEach((e,i) => e.pos = i+1, data);
         this.dataSource = data.docs;
         this.resultsLength = data.total;
+        
+        setTimeout(() => this.isLoading = false ,800);
       }, 
       err => this.errorHandler(err, 'Failed to load invoices')
     );
   }
 
   private errorHandler(error, message){
+    this.isLoading = false;
     console.error(error);
     this.snackBar.open(message, 'Error', {
       duration: 2000,

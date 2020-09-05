@@ -1,5 +1,9 @@
-<mat-toolbar>
-  <h3>Invoices</h3>
+<mat-toolbar >
+  <mat-form-field color="accent" class="search-div" >
+    <input matInput (keyup) = "filterText($event.target.value)" placeholder="Search" />
+  </mat-form-field>
+  <mat-icon>search</mat-icon>
+  <!-- <h3>Invoices</h3> -->
   <div class="menu-bar" >
     <button mat-button (click) ="saveBtnHandler()" >
       New Invoice

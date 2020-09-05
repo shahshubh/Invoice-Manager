@@ -2,9 +2,17 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { InvoiceService } from '../../services/invoice.service';
 import { Invoice } from '../../models/invoice';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatPaginator, MatSort } from '@angular/material';
+import { MatSnackBar, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { remove } from 'lodash';
 import 'rxjs/Rx';
+import { of as observableOf } from 'rxjs/observable/of';
+import { catchError } from 'rxjs/operators/catchError';
+import { map } from 'rxjs/operators/map';
+import { startWith } from 'rxjs/operators/startWith';
+import { switchMap } from 'rxjs/operators/switchMap';
+import { merge } from 'rxjs/observable/merge';
+
+
 
 @Component({
   selector: 'app-invoice-listing',
@@ -20,7 +28,7 @@ export class InvoiceListingComponent implements OnInit {
   ) { }
 
   displayedColumns = ['item', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
-  dataSource: Invoice[] = [];
+  dataSource = new MatTableDataSource<Invoice>();
   resultsLength = 0;
   isLoading = false;
 
@@ -41,7 +49,7 @@ export class InvoiceListingComponent implements OnInit {
         const removedItem = remove(this.dataSource,(item) => {
           return item._id === data._id
         });
-        this.dataSource = [...this.dataSource];
+        this.dataSource.data = [...this.dataSource.data];
         this.snackBar.open('Invoice deleted', 'Success', {
           duration: 2000,
           verticalPosition: 'top',
@@ -53,57 +61,113 @@ export class InvoiceListingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isLoading = true;
-    this.paginator.page.flatMap(
-      data => {
+    
+    merge(this.paginator.page, this.sort.sortChange)
+    .pipe(
+      startWith({}),
+      switchMap(() => {
+        this.isLoading = true;
         return this.invoiceService.getInvoices(
           { 
             page: this.paginator.pageIndex,
             perPage: this.paginator.pageSize,
             sortField:this.sort.active,
-            sortDir: this.sort.direction 
+            sortDir: this.sort.direction,
+            filter: ''
           }
         )
-      }
-    )
-    .subscribe(
-      data => {
-        this.dataSource = data.docs;
-        this.resultsLength = data.total;
+      }),
+      map(data => {
         this.isLoading = false;
-      }, 
-      err => this.errorHandler(err, 'Failed to load invoices')
-    );
-
-
-    this.sort.sortChange.flatMap(() => {
-      // this.isLoading = true;
-      this.paginator.pageIndex = 0;
-      return this.invoiceService.getInvoices(
-        { 
-          page: this.paginator.pageIndex,
-          perPage: this.paginator.pageSize,
-          sortField:this.sort.active,
-          sortDir: this.sort.direction 
-        }
-      )
-    })
-    .subscribe(
-      data => {
-        this.dataSource = data.docs;
+        // setTimeout(() => this.isLoading = false ,800);
         this.resultsLength = data.total;
-        // this.isLoading = false;
-      }, 
-      err => this.errorHandler(err, 'Failed to load invoices')
-    );
+        return data.docs;
+      }),
+      catchError(() => {
+        this.isLoading = false;
+        this.errorHandler('Error', 'Failed to fetch Invoices');
+        return observableOf([]);
+      })
+    )
 
-    
-    this.populateInvoices();
+    .subscribe(data => {
+      this.dataSource.data = data;
+    })
   }
 
   ngAfterViewInit(){
+    // this.isLoading = true;
+    // this.paginator.page.flatMap(
+    //   data => {
+    //     return this.invoiceService.getInvoices(
+    //       { 
+    //         page: this.paginator.pageIndex,
+    //         perPage: this.paginator.pageSize,
+    //         sortField:this.sort.active,
+    //         sortDir: this.sort.direction 
+    //       }
+    //     )
+    //   }
+    // )
+    // .subscribe(
+    //   data => {
+    //     this.dataSource = data.docs;
+    //     this.resultsLength = data.total;
+    //     this.isLoading = false;
+    //   }, 
+    //   err => this.errorHandler(err, 'Failed to load invoices')
+    // );
+
+
+    // this.sort.sortChange.flatMap(() => {
+    //   // this.isLoading = true;
+    //   this.paginator.pageIndex = 0;
+    //   return this.invoiceService.getInvoices(
+    //     { 
+    //       page: this.paginator.pageIndex,
+    //       perPage: this.paginator.pageSize,
+    //       sortField:this.sort.active,
+    //       sortDir: this.sort.direction 
+    //     }
+    //   )
+    // })
+    // .subscribe(
+    //   data => {
+    //     this.dataSource = data.docs;
+    //     this.resultsLength = data.total;
+    //     // this.isLoading = false;
+    //   }, 
+    //   err => this.errorHandler(err, 'Failed to load invoices')
+    // );
+
     
+    // this.populateInvoices();
+
   }
+
+
+  filterText(filterValue){
+    // this.isLoading = true;
+    filterValue = filterValue.trim();
+    this.paginator.pageIndex = 0;
+    return this.invoiceService.getInvoices(
+      { 
+        page: this.paginator.pageIndex,
+        perPage: this.paginator.pageSize,
+        sortField:this.sort.active,
+        sortDir: this.sort.direction,
+        filter: filterValue
+      }
+    )
+    .subscribe(data => {
+      this.dataSource.data = data.docs;
+      this.resultsLength = data.total;
+      // this.isLoading = false;
+    }, err => this.errorHandler(err, 'Failed to search invoices'));
+
+
+  }
+
 
   private populateInvoices(){
     this.isLoading = true;
@@ -111,11 +175,12 @@ export class InvoiceListingComponent implements OnInit {
       page: this.paginator.pageIndex,
       perPage: this.paginator.pageSize,
       sortField: this.sort.active,
-      sortDir: this.sort.direction
+      sortDir: this.sort.direction,
+      filter: ''
     }).subscribe(
       data => {
         // data.forEach((e,i) => e.pos = i+1, data);
-        this.dataSource = data.docs;
+        // this.dataSource = data.docs;
         this.resultsLength = data.total;
         
         setTimeout(() => this.isLoading = false ,800);

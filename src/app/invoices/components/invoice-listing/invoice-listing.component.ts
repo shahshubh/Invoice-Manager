@@ -46,9 +46,13 @@ export class InvoiceListingComponent implements OnInit {
   deleteBtnHandler(id){
     this.invoiceService.deleteInvoice(id).subscribe(
       data => {
-        const removedItem = remove(this.dataSource,(item) => {
+        console.log("Before");
+        console.log(this.dataSource);
+        const removedItem = remove(this.dataSource.data,(item) => {
           return item._id === data._id
         });
+        console.log("After");
+        console.log(this.dataSource);
         this.dataSource.data = [...this.dataSource.data];
         this.snackBar.open('Invoice deleted', 'Success', {
           duration: 2000,

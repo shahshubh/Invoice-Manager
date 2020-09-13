@@ -4,6 +4,7 @@ import { Client } from '../../models/client';
 import { ClientService } from '../../services/client.service';
 import { FormDialogComponent } from '../form-dialog/form-dialog.component';
 import 'rxjs/add/operator/mergeMap';
+import { remove } from 'lodash';
 
 @Component({
   selector: 'app-client-listing',
@@ -11,7 +12,7 @@ import 'rxjs/add/operator/mergeMap';
   styleUrls: ['./client-listing.component.scss']
 })
 export class ClientListingComponent implements OnInit {
-  displayedColumns = ['firstName', 'lastName', 'email'];
+  displayedColumns = ['firstName', 'lastName', 'email', 'action'];
   dataSource = new MatTableDataSource<Client>();
   isLoading = false;
 
@@ -38,19 +39,62 @@ export class ClientListingComponent implements OnInit {
 
   }
 
-  openDialog(): void {
-    let dialogRef = this.dialog.open(FormDialogComponent, {
+  deleteBtnHandler(clientId){
+    this.clientService.deleteClient(clientId).subscribe(
+      data => {
+        const removedItem = remove(this.dataSource.data,(item) => {
+          return item._id === data._id
+        });
+        this.dataSource.data = [...this.dataSource.data];
+        this.snackBar.open('Client deleted', 'Success', {
+          duration: 2000,
+          verticalPosition: 'top',
+          horizontalPosition: 'end'
+        })
+      },
+      err => this.errorHandler(err, 'Failed to delete client.')
+    );
+  }
+
+  openDialog(clientId: string): void {
+
+    const options = {
       width: '400px',
-      height: '350px'
-    });
+      height: '350px',
+      data: {}
+    };
+    if(clientId){
+      options.data = { clientId: clientId };
+    }
+
+    let dialogRef = this.dialog.open(FormDialogComponent, options);
 
     dialogRef.afterClosed()
     .filter(clientParam => typeof clientParam === 'object')
-    .flatMap(result => this.clientService.createClient(result))
+    .flatMap(result => {
+      if(clientId){
+        // update 
+        return this.clientService.updateClient(clientId, result);
+      } else {
+        // create new
+        return this.clientService.createClient(result)
+      }
+    })
     .subscribe(
-      data => {
-        this.dataSource.data = [...this.dataSource.data, data];
-        this.snackBar.open('Client created successfully!', 'Success', {
+      client => {
+        let successMsg = '';
+        if(clientId){
+          const index = this.dataSource.data.findIndex(client => client._id === clientId);
+          this.dataSource.data[index] = client;
+          successMsg = 'Client updated successfully!';
+          this.dataSource.data = [...this.dataSource.data];
+        } 
+        else {
+          this.dataSource.data = [...this.dataSource.data, client];
+          successMsg = 'Client created successfully!';
+        }
+        
+        this.snackBar.open(successMsg, 'Success', {
           duration: 2000,
           verticalPosition: 'top',
           horizontalPosition: 'end'

@@ -27,7 +27,7 @@ export class InvoiceListingComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
-  displayedColumns = ['item', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
+  displayedColumns = ['item', 'client', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
   dataSource = new MatTableDataSource<Invoice>();
   resultsLength = 0;
   isLoading = false;

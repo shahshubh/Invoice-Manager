@@ -33,6 +33,15 @@
     <mat-form-field color="accent">
       <input matInput placeholder="Rate" type="number" formControlName="rate" >
     </mat-form-field>
+    
+    <mat-form-field color="accent">
+      <mat-select placeholder="Select client" formControlName="client" >
+        <mat-option *ngFor="let c of clients" [value]="c._id" >
+          {{ c.firstName }} {{ c.lastName }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="invoiceForm.controls.client.invalid">Client is required field.</mat-error>
+    </mat-form-field>
 
     <div class="button-container" >
       <div>

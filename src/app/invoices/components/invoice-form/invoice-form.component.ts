@@ -4,6 +4,8 @@ import { InvoiceService } from '../../services/invoice.service';
 import { MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Invoice } from '../../models/invoice';
+import { ClientService } from '../../../clients/services/client.service';
+import { Client } from '../../../clients/models/client';
 
 @Component({
   selector: 'app-invoice-form',
@@ -14,17 +16,21 @@ export class InvoiceFormComponent implements OnInit {
 
   invoiceForm: FormGroup;
   invoice: Invoice;
+  clients: Client[] = [];
+
   constructor(
     private fb: FormBuilder,
     private invoiceService: InvoiceService,
     private snackBar : MatSnackBar,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private clientService: ClientService
     ) { }
 
   ngOnInit() {
     this.createForm();
     this.setInvoiceToForm();
+    this.setClients();
   }
 
   cancelBtnHandler(){
@@ -80,14 +86,25 @@ export class InvoiceFormComponent implements OnInit {
     )
   }
 
+
+  private setClients() {
+    this.clientService.getClients().subscribe(
+      clients => {
+        this.clients = clients;
+      },
+      err => this.errorHandler(err, 'Failed to get clients')
+    );
+  }
+
   createForm(){
     this.invoiceForm = this.fb.group({
       item: ['', Validators.required],
       date: ['', Validators.required],
       due: ['', Validators.required],
       qty: ['', Validators.required],
+      client: ['', Validators.required],
       rate: '',
-      tax: ''
+      tax: '',
     })
   }
 

@@ -8,7 +8,10 @@
     
     <mat-toolbar color="accent" >Dashboard</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item [routerLink] = [link.url] *ngFor="let link of links">{{ link.name }}</a>
+      <a mat-list-item [routerLink] = [link.url] *ngFor="let link of links"> <mat-icon class="sidenav-icon" >{{link.iconName}}</mat-icon> {{ link.name }}</a>
+    </mat-nav-list>
+    <mat-nav-list>
+      <a mat-list-item (click)="logout()" > <mat-icon class="sidenav-icon" >exit_to_app</mat-icon> Logout</a>
     </mat-nav-list>
   </mat-sidenav>
   <div class="app-sidenav-content">

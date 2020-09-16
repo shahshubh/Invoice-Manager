@@ -8,6 +8,8 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { MaterialModule } from '../shared/material.module';
 import { InvoicesModule } from '../invoices/invoices.module';
 import { ClientsModule } from '../clients/clients.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpInterceptorService } from '../core/services/http-interceptor.service';
 
 @NgModule({
   imports: [
@@ -17,6 +19,11 @@ import { ClientsModule } from '../clients/clients.module';
     ClientsModule,
     MaterialModule
   ],
-  declarations: [DashboardComponent, SideNavComponent, ToolbarComponent]
+  declarations: [DashboardComponent, SideNavComponent, ToolbarComponent],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: HttpInterceptorService,
+    multi: true
+  }]
 })
 export class DashboardModule { }

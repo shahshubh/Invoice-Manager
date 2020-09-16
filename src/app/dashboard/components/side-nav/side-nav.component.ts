@@ -1,4 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
+import { Router } from '@angular/router';
+import { JwtService } from '../../../core/services/jwt.service';
 const MAX_WIDTH_BREAKPOINT = 720;
 @Component({
   selector: 'app-side-nav',
@@ -11,22 +13,33 @@ export class SideNavComponent implements OnInit {
   links = [
     {
       name: 'Invoices',
-      url: 'invoices'
+      url: 'invoices',
+      iconName: 'article'
     },
     {
       name: 'Clients',
-      url: 'clients'
+      url: 'clients',
+      iconName: 'groups'
     }
   ]
 
 
-  constructor(zone: NgZone) {
+  constructor(
+    zone: NgZone,
+    private router: Router,
+    private jwtService: JwtService
+    ) {
     this.mediaMatcher.addListener(() => {
       zone.run(() => this.mediaMatcher = matchMedia(`(max-width: ${MAX_WIDTH_BREAKPOINT}px)`))
     })
   }
 
   ngOnInit() {
+  }
+
+  logout(){
+    this.jwtService.destroyToken();
+    this.router.navigate(['/login'])
   }
 
   isScreenSmall(){

@@ -17,6 +17,7 @@ export class InvoiceFormComponent implements OnInit {
   invoiceForm: FormGroup;
   invoice: Invoice;
   clients: Client[] = [];
+  title = 'Create Invoice';
 
   constructor(
     private fb: FormBuilder,
@@ -75,6 +76,7 @@ export class InvoiceFormComponent implements OnInit {
         if(!id){
           return;
         }
+        this.title  = 'Edit Invoice';
         this.invoiceService.findInvoice(id).subscribe(
           invoice => {
             this.invoice = invoice;

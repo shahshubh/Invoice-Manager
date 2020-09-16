@@ -1,0 +1,48 @@
+<div class="limiter">
+  <div class="container-login">
+    <mat-card>
+      <!-- <div class="mat-elevation-z8" >
+        <div class="loading-shade" *ngIf="isLoading" >
+          <mat-spinner color="accent" *ngIf="isLoading" ></mat-spinner>
+        </div>
+      </div> -->
+      <mat-card-title> {{ title }} </mat-card-title>
+      <mat-card-content>
+        <form class="form-container" [formGroup]="authForm" novalidate (ngSubmit)="onSubmit()" >
+          <mat-form-field color="accent" >
+            <input matInput placeholder="Email" formControlName="email" >
+            <mat-error *ngIf="authForm.controls.email.invalid">Email is required field.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field color="accent" >
+            <input matInput placeholder="Password" formControlName="password" type="password" >
+            <mat-error *ngIf="authForm.controls.password.invalid">Password is required field.</mat-error>
+          </mat-form-field>
+      
+          <!-- <div class="button-container" > -->
+            <div>
+              <button mat-raised-button [disabled]="!authForm.valid"  type="submit" color="accent" > {{ title }} </button>
+            </div>
+            <!-- <div>
+              <button mat-raised-button type="button" class="back-button" (click)="cancelBtnHandler()" >Go back</button>
+            </div> -->
+          <!-- </div> -->
+      
+        
+        </form>
+      </mat-card-content>
+
+      <div class="alternative" *ngIf="title === 'Login'" >
+        <p>Don't have an account? <span class="spanLink" [routerLink]="['/signup']" >Signup</span> </p>
+        <!-- <button mat-raised-button color="accent" [routerLink]="['/signup']" >Signup</button> -->
+      </div>
+
+      <div class="alternative" *ngIf="title === 'Signup'" >
+        <p>Already have an account? <span class="spanLink" [routerLink]="['/login']" >Login</span> </p>
+        <!-- <button mat-raised-button color="accent" [routerLink]="['/login']" >Login</button> -->
+      </div>
+
+
+    </mat-card>
+  </div>
+</div>

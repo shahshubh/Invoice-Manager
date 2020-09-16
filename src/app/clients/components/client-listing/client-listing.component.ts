@@ -29,7 +29,7 @@ export class ClientListingComponent implements OnInit {
         // console.log(data);
         this.dataSource.data = data;
       },
-      err => console.log(err),
+      err => this.errorHandler(err, 'Failed to fetch clients'),
       () => this.isLoading = false 
       // setTimeout(() => this.isLoading = false ,800)
     );
@@ -105,6 +105,7 @@ export class ClientListingComponent implements OnInit {
   }
 
   private errorHandler(error, message){
+    this.isLoading = false;
     console.error(error);
     this.snackBar.open(message, 'Error', {
       duration: 2000,

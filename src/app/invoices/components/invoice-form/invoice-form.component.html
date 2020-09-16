@@ -28,10 +28,12 @@
 
     <mat-form-field color="accent">
       <input matInput placeholder="Tax" type="number" formControlName="tax" >
+      <mat-error *ngIf="invoiceForm.controls.tax.invalid">Tax is required field.</mat-error>
     </mat-form-field>
 
     <mat-form-field color="accent">
       <input matInput placeholder="Rate" type="number" formControlName="rate" >
+      <mat-error *ngIf="invoiceForm.controls.rate.invalid">Rate is required field.</mat-error>
     </mat-form-field>
     
     <mat-form-field color="accent">

@@ -6,6 +6,7 @@ export class Invoice {
     date: Date;
     due: Date;
     tax: number;
+    rate: number;
 }
 
 export class InvoicePaginationRsp{

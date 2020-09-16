@@ -77,13 +77,19 @@ export class InvoiceFormComponent implements OnInit {
           return;
         }
         this.title  = 'Edit Invoice';
-        this.invoiceService.findInvoice(id).subscribe(
-          invoice => {
-            this.invoice = invoice;
-            this.invoiceForm.patchValue(this.invoice);
-          },
-          err => this.errorHandler(err, 'Failed to get invoice!')
-        )
+        // this.invoiceService.findInvoice(id).subscribe(
+        //   invoice => {
+        //     this.invoice = invoice;
+        //     this.invoiceForm.patchValue(this.invoice);
+        //   },
+        //   err => this.errorHandler(err, 'Failed to get invoice!')
+        // )
+
+        this.route.data.subscribe((data : {invoice: Invoice}) => {
+          this.invoice = data.invoice;
+          this.invoiceForm.patchValue(this.invoice);
+        })
+
       }
     )
   }
@@ -105,8 +111,8 @@ export class InvoiceFormComponent implements OnInit {
       due: ['', Validators.required],
       qty: ['', Validators.required],
       client: ['', Validators.required],
-      rate: '',
-      tax: '',
+      rate: ['', Validators.required],
+      tax: ['', Validators.required],
     })
   }
 

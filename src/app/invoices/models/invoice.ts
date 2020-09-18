@@ -7,6 +7,11 @@ export class Invoice {
     due: Date;
     tax: number;
     rate: number;
+    client: {
+        firstName: string;
+        lastName: string;
+        email: string;
+    }
 }
 
 export class InvoicePaginationRsp{

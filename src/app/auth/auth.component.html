@@ -1,11 +1,45 @@
-<div class="limiter">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+      <div class="card card-signin my-5">
+        <div class="card-body">
+          <h5 class="card-title text-center">{{ title }}</h5>
+          <form class="form-signin form-container" [formGroup]="authForm" novalidate (ngSubmit)="onSubmit()">
+            <div class="form-label-group">
+              <input type="email" id="inputEmail" formControlName="email" class="form-control" placeholder="Email address" required autofocus>
+              <label for="inputEmail">Email address</label>
+              <!-- <mat-error *ngIf="authForm.controls.email.invalid">Email is required field.</mat-error> -->
+            </div>
+
+            <div class="form-label-group">
+              <input type="password" id="inputPassword" formControlName="password" class="form-control" placeholder="Password" required>
+              <label for="inputPassword">Password</label>
+            </div>
+
+            <div class="custom-control custom-checkbox mb-3">
+              <!-- <input type="checkbox" class="custom-control-input" id="customCheck1"> -->
+              <div class="forgot-password-div" >Forgot Password ?</div>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
+              <mat-spinner *ngIf="isLoading" [diameter]="20" color="accent" ></mat-spinner>
+              <span *ngIf="!isLoading" >{{ title }}</span>
+            </button>
+            <hr class="my-4">
+            <button class="btn btn-lg btn-extra-link btn-block text-uppercase" [routerLink]="['/signup']" *ngIf="title === 'Login'" type="button">Signup</button>
+            <button class="btn btn-lg btn-extra-link btn-block text-uppercase" [routerLink]="['/login']" *ngIf="title === 'Signup'" type="button">Login</button>
+            <!-- <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button> -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <div class="limiter">
   <div class="container-login">
     <mat-card>
-      <!-- <div class="mat-elevation-z8" >
-        <div class="loading-shade" *ngIf="isLoading" >
-          <mat-spinner color="accent" *ngIf="isLoading" ></mat-spinner>
-        </div>
-      </div> -->
       <mat-card-title> {{ title }} </mat-card-title>
       <mat-card-content>
         <form class="form-container" [formGroup]="authForm" novalidate (ngSubmit)="onSubmit()" >
@@ -18,31 +52,22 @@
             <input matInput placeholder="Password" formControlName="password" type="password" >
             <mat-error *ngIf="authForm.controls.password.invalid">Password is required field.</mat-error>
           </mat-form-field>
-      
-          <!-- <div class="button-container" > -->
             <div>
               <button mat-raised-button [disabled]="!authForm.valid"  type="submit" color="accent" > {{ title }} </button>
             </div>
-            <!-- <div>
-              <button mat-raised-button type="button" class="back-button" (click)="cancelBtnHandler()" >Go back</button>
-            </div> -->
-          <!-- </div> -->
-      
         
         </form>
       </mat-card-content>
 
       <div class="alternative" *ngIf="title === 'Login'" >
         <p>Don't have an account? <span class="spanLink" [routerLink]="['/signup']" >Signup</span> </p>
-        <!-- <button mat-raised-button color="accent" [routerLink]="['/signup']" >Signup</button> -->
       </div>
 
       <div class="alternative" *ngIf="title === 'Signup'" >
         <p>Already have an account? <span class="spanLink" [routerLink]="['/login']" >Login</span> </p>
-        <!-- <button mat-raised-button color="accent" [routerLink]="['/login']" >Login</button> -->
       </div>
 
 
     </mat-card>
   </div>
-</div>
+</div> -->

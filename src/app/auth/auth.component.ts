@@ -31,12 +31,12 @@ export class AuthComponent implements OnInit {
   }
 
   onSubmit(){
-    // this.isLoading = true;
+    this.isLoading = true;
     if(this.title === 'Signup'){
       this.authService.signup(this.authForm.value).subscribe(
         data => {
           console.log(data);
-          // this.isLoading = false;
+          this.isLoading = false;
           this.router.navigate(['/dashboard', 'invoices']);
         },
         err => this.errorHandler(err, err.error.err)
@@ -46,8 +46,8 @@ export class AuthComponent implements OnInit {
       this.authService.login(this.authForm.value).subscribe(
         data => {
           console.log(data);
-          // this.isLoading = false;
           this.jwtService.setToken(data.token);
+          this.isLoading = false;
           this.router.navigate(['/dashboard', 'invoices']);
         },
         err => this.errorHandler(err, err.error.err)

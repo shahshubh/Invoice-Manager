@@ -1,83 +1,89 @@
-<div id="invoice">
-    <div class="invoice overflow-auto">
-        <div style="min-width: 600px">
-            <header>
-                <div class="row">
-                    <div class="col">
-                        <a target="_blank" href="https://lobianijs.com">
-                            <img src="https://extensionscdn.joomla.org/cache/fab_image/54872cf876483_resizeDown1200px525px16.png" height="150" width="400" data-holder-rendered="true" />
-                            </a>
+<div>
+    <button mat-raised-button color="accent" type="button" (click)="downloadBtnHandler()" style="margin-bottom: 10px;" >Download</button>
+    <mat-progress-bar *ngIf="isResultsLoading" mode="indeterminate" style="margin-bottom: 10px;margin-top: 10px; width: 75%;" ></mat-progress-bar>
+
+    <div id="invoice" id="content-to-print">
+        <div class="invoice overflow-auto">
+            <div style="min-width: 600px">
+                <header>
+                    <div class="row">
+                        <div class="col">
+                            <a target="_blank" href="https://lobianijs.com">
+                                <img src="assets/logo.png" height="150" width="400" data-holder-rendered="true" />
+                                </a>
+                        </div>
+                        <div class="col company-details company-details-main">
+                            <h2 class="name">Invoice Manager</h2>
+                            <div>Mumbai, India</div>
+                            <div>+91 123456789</div>
+                            <div>company@example.com</div>
+                        </div>
                     </div>
-                    <div class="col company-details company-details-main">
-                        <h2 class="name">Invoice Manager</h2>
-                        <div>Mumbai, India</div>
-                        <div>+91 123456789</div>
-                        <div>company@example.com</div>
+                </header>
+                <main>
+                    <div class="row contacts">
+                        <div class="col invoice-to">
+                            <div class="text-gray-light client">CLIENT :</div>
+                            <h2 class="to"> {{ invoice.client.firstName | uppercase }} {{ invoice.client.lastName | uppercase }} </h2>
+                            <!-- <div class="address">796 Silver Harbour, TX 79273, US</div> -->
+                            <div class="email">{{ invoice.client.email }}</div>
+                        </div>
+                        <div class="col invoice-details">
+                            <h1 class="invoice-id">#INVOICE</h1>
+                            <div class="date">Date of Invoice: {{ invoice.date | date }}</div>
+                            <div class="date">Due Date: {{ invoice.due | date }}</div>
+                        </div>
                     </div>
-                </div>
-            </header>
-            <main>
-                <div class="row contacts">
-                    <div class="col invoice-to">
-                        <div class="text-gray-light client">CLIENT :</div>
-                        <h2 class="to"> {{ invoice.client.firstName | uppercase }} {{ invoice.client.lastName | uppercase }} </h2>
-                        <!-- <div class="address">796 Silver Harbour, TX 79273, US</div> -->
-                        <div class="email">{{ invoice.client.email }}</div>
-                    </div>
-                    <div class="col invoice-details">
-                        <h1 class="invoice-id">#INVOICE</h1>
-                        <div class="date">Date of Invoice: {{ invoice.date | date }}</div>
-                        <div class="date">Due Date: {{ invoice.due | date }}</div>
-                    </div>
-                </div>
-                <table border="0" cellspacing="0" cellpadding="0">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th class="text-left">ITEM</th>
-                            <th class="text-right">PRICE</th>
-                            <th class="text-right">QTY</th>
-                            <th class="text-right">TOTAL</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="no">01</td>
-                            <td class="text-left item-col "><h3>{{ invoice.item }}</h3></td>
-                            <td class="unit">{{ invoice.rate | currency:'INR'  }}</td>
-                            <td class="qty">{{ invoice.qty }}</td>
-                            <td class="total">{{ total | currency:'INR'  }}</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="2"></td>
-                            <td colspan="2">SUBTOTAL</td>
-                            <td>{{ total | currency:'INR'  }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"></td>
-                            <td colspan="2">TAX</td>
-                            <td>{{ tax | currency:'INR'  }}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="2"></td>
-                            <td colspan="2">GRAND TOTAL</td>
-                            <td>{{ grandTotal | currency:'INR' }}</td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <!-- <div class="notices">
-                    <div>NOTICE:</div>
-                    <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
-                </div> -->
-            </main>
-            <div class="thanks">Thank you!<mat-icon style="font-size: 30px;" >sentiment_satisfied_alt</mat-icon></div>
-            <footer>
-                Invoice was created on a computer and is valid without the signature and seal.
-            </footer>
+                    <table border="0" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th class="text-left">ITEM</th>
+                                <th class="text-right">PRICE</th>
+                                <th class="text-right">QTY</th>
+                                <th class="text-right">TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="no">01</td>
+                                <td class="text-left item-col "><h3>{{ invoice.item }}</h3></td>
+                                <td class="unit">{{ invoice.rate | currency:'INR'  }}</td>
+                                <td class="qty">{{ invoice.qty }}</td>
+                                <td class="total">{{ total | currency:'INR'  }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2"></td>
+                                <td colspan="2">SUBTOTAL</td>
+                                <td>{{ total | currency:'INR'  }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"></td>
+                                <td colspan="2">TAX</td>
+                                <td>{{ tax | currency:'INR'  }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"></td>
+                                <td colspan="2">GRAND TOTAL</td>
+                                <td>{{ grandTotal | currency:'INR' }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <!-- <div class="notices">
+                        <div>NOTICE:</div>
+                        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+                    </div> -->
+                </main>
+                <div class="thanks">Thank you!<mat-icon style="font-size: 30px;" >sentiment_satisfied_alt</mat-icon></div>
+                <footer>
+                    Invoice was created on a computer and is valid without the signature and seal.
+                </footer>
+            </div>
+            <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
+            <div></div>
         </div>
-        <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
-        <div></div>
     </div>
+
 </div>

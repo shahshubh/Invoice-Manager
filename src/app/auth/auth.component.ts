@@ -30,29 +30,54 @@ export class AuthComponent implements OnInit {
     this.title = this.router.url === '/login' ? 'Login' : 'Signup';
   }
 
+
+  forgotPassHandler(){
+    this.router.navigate(['/forgot-password']);
+  }
+
+
   onSubmit(){
-    this.isLoading = true;
-    if(this.title === 'Signup'){
-      this.authService.signup(this.authForm.value).subscribe(
-        data => {
-          console.log(data);
-          this.isLoading = false;
-          this.router.navigate(['/dashboard', 'invoices']);
-        },
-        err => this.errorHandler(err, err.error.err)
-      );
+
+    if(this.authForm.controls.email.invalid){
+      this.snackBar.open('Please enter valid email', 'Warning', {
+        duration: 2000,
+        verticalPosition: 'top',
+        horizontalPosition: 'end'
+      });
     }
-    else{
-      this.authService.login(this.authForm.value).subscribe(
-        data => {
-          console.log(data);
-          this.jwtService.setToken(data.token);
-          this.isLoading = false;
-          this.router.navigate(['/dashboard', 'invoices']);
-        },
-        err => this.errorHandler(err, err.error.err)
-      );
+    else if(this.authForm.controls.password.invalid){
+      this.snackBar.open('Password is required', 'Warning', {
+        duration: 2000,
+        verticalPosition: 'top',
+        horizontalPosition: 'end'
+      });
     }
+    else {
+      this.isLoading = true;
+      if(this.title === 'Signup'){
+        this.authService.signup(this.authForm.value).subscribe(
+          data => {
+            console.log(data);
+            this.isLoading = false;
+            this.router.navigate(['/dashboard', 'invoices']);
+          },
+          err => this.errorHandler(err, err.error.err)
+        );
+      }
+      else{
+        this.authService.login(this.authForm.value).subscribe(
+          data => {
+            console.log(data);
+            this.jwtService.setToken(data.token);
+            this.isLoading = false;
+            this.router.navigate(['/dashboard', 'invoices']);
+          },
+          err => this.errorHandler(err, err.error.err)
+        );
+      }
+    }
+
+    
     
   }
 

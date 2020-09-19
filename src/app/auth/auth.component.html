@@ -18,7 +18,7 @@
 
             <div class="custom-control custom-checkbox mb-3">
               <!-- <input type="checkbox" class="custom-control-input" id="customCheck1"> -->
-              <div class="forgot-password-div" >Forgot Password ?</div>
+              <div (click)="forgotPassHandler()" class="forgot-password-div" >Forgot Password ?</div>
             </div>
             <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">
               <mat-spinner *ngIf="isLoading" [diameter]="20" color="accent" ></mat-spinner>

@@ -1,37 +1,43 @@
- 
  <div align="center">
 
- # Invoice Manager
- [![](https://img.shields.io/badge/Made_with-Angular-red?style=for-the-badge&logo=angular)](https://angular.io/docs)
+# Invoice Manager
+
+[![](https://img.shields.io/badge/Made_with-Angular-red?style=for-the-badge&logo=angular)](https://angular.io/docs)
 [![](https://img.shields.io/badge/Database-MongoDB-red?style=for-the-badge&logo=mongodb)](mongodb.com "MongoDB")
-[![](https://img.shields.io/badge/IDE-Visual_Studio_Code-red?style=for-the-badge&logo=visual-studio-code)](https://code.visualstudio.com/  "Visual Studio Code")
-[![](https://img.shields.io/badge/Deployed_on-Heroku-red?style=for-the-badge&logo=heroku)](https://www.heroku.com/  "Heroku")
+[![](https://img.shields.io/badge/IDE-Visual_Studio_Code-red?style=for-the-badge&logo=visual-studio-code)](https://code.visualstudio.com/ "Visual Studio Code")
+[![](https://img.shields.io/badge/Deployed_on-Heroku-red?style=for-the-badge&logo=heroku)](https://www.heroku.com/ "Heroku")
+
 </div>
 
 Manage your clients and invoices at one place.
+MEAN Stack mini-project
 
-"@angular/cli": "~1.7.4",
-"@angular/compiler-cli": "^5.2.0",
 
 ## Deployed website
 
-[https://sociallappp.herokuapp.com/](https://sociallappp.herokuapp.com/)
+[https://invoicemanager2.herokuapp.com/](https://invoicemanager2.herokuapp.com/)
 
 ## Features
 
-* SignUp / SignIn.
-* Forgot / Reset password.
-* create / edit / delete Clients.
-* create / edit / delete Invoices.
-* View and Download invoice in pdf format.
+- SignUp / SignIn.
+- Forgot / Reset password.
+- create / edit / delete Clients.
+- create / edit / delete Invoices.
+- View and Download invoice in pdf format.
 
-## Demo 
+## Demo
 
 <div align="center">
 
-<!-- <h4 align="center">Home Page</h4>
-<img src="./demo/home.PNG" width=900px/>
-<br> -->
+<!-- <h4 align="center">Auth Page</h4> -->
+<img src="./demo/1.PNG" width=900px/>
+<br>
+<img src="./demo/2.PNG" width=900px/>
+<br>
+<img src="./demo/3.PNG" width=900px/>
+<br>
+<img src="./demo/4.PNG" width=900px/>
+<br>
 
 </div>
 
@@ -55,10 +61,8 @@ Manage your clients and invoices at one place.
 
 ## Tech Stack of this Project
 
-* Frontend: Reactjs, Bootstrap Material
-* Backend: Nodejs
-* Framework: Expressjs
-* Database: MongoDB
+```
+MEAN Stack
 
-
-
+MongoDB | Express | Angular | Nodejs
+```

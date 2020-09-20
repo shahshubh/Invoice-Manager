@@ -20,3 +20,12 @@
     position: absolute;
     right: 60px;
 }
+
+
+.mat-spinner {
+    margin: 0 auto;
+    ::ng-deep circle {
+        stroke: #fff;
+    }
+  }
+  

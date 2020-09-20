@@ -30,6 +30,7 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   onSubmit(){
+    this.isLoading = true;
     let { password, confirmPassword } = this.form.value;
     if(password !== confirmPassword){
       this.snackBar.open('Passwords do not match', 'Warning', {
@@ -37,6 +38,7 @@ export class ResetPasswordComponent implements OnInit {
         verticalPosition: 'top',
         horizontalPosition: 'end'
       });
+      this.isLoading = false;
       return;
     }
 
@@ -48,8 +50,8 @@ export class ResetPasswordComponent implements OnInit {
           verticalPosition: 'top',
           horizontalPosition: 'end'
         });
+        this.isLoading = false;
         this.router.navigate(['/login']);
-        
       },
       err => {
         console.log(err);

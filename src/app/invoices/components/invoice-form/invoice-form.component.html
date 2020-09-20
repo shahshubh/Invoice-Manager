@@ -47,7 +47,10 @@
 
     <div class="button-container" >
       <div>
-        <button mat-raised-button [disabled]="!invoiceForm.valid"  type="submit" color="accent" >Save</button>
+        <button mat-raised-button [disabled]="!invoiceForm.valid" type="submit" color="accent" >
+          <mat-spinner *ngIf="isLoading" [diameter]="20" color="accent"  ></mat-spinner>
+          <span *ngIf="!isLoading" >Save</span>
+        </button>
         <button mat-raised-button type="reset">Reset</button>
       </div>
       <div>

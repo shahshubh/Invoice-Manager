@@ -18,6 +18,7 @@ export class InvoiceFormComponent implements OnInit {
   invoice: Invoice;
   clients: Client[] = [];
   title = 'Create Invoice';
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -39,6 +40,7 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   onSubmit(){
+    this.isLoading = true;
 
     if(this.invoice){
       //edit invoice
@@ -49,6 +51,7 @@ export class InvoiceFormComponent implements OnInit {
             verticalPosition: 'top',
             horizontalPosition: 'end'
           });
+          this.isLoading = false;
           this.router.navigate(['dashboard','inovices']);
         },
         err => this.errorHandler(err,'Failed to update invoice!')
@@ -63,6 +66,7 @@ export class InvoiceFormComponent implements OnInit {
             horizontalPosition: 'end'
           });
           this.invoiceForm.reset();
+          this.isLoading = false;
           this.router.navigate(['dashboard','inovices']);
         }, err => this.errorHandler(err, 'Failed to create invoice!')
       );
@@ -118,6 +122,7 @@ export class InvoiceFormComponent implements OnInit {
 
   private errorHandler(error, message){
     console.error(error);
+    this.isLoading = false;
     this.snackBar.open(message, 'Error', {
       duration: 2000,
       verticalPosition: 'top',

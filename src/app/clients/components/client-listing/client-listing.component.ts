@@ -63,7 +63,7 @@ export class ClientListingComponent implements OnInit {
       height: '350px',
       data: {}
     };
-    if(clientId){
+    if(clientId != null){
       options.data = { clientId: clientId };
     }
 
@@ -72,7 +72,7 @@ export class ClientListingComponent implements OnInit {
     dialogRef.afterClosed()
     .filter(clientParam => typeof clientParam === 'object')
     .flatMap(result => {
-      if(clientId){
+      if(clientId != null){
         // update 
         return this.clientService.updateClient(clientId, result);
       } else {

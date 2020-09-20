@@ -6,7 +6,7 @@ import { MatSnackBar, MatPaginator, MatSort, MatTableDataSource } from '@angular
 import { remove } from 'lodash';
 import 'rxjs/Rx';
 import { of as observableOf } from 'rxjs/observable/of';
-import { catchError } from 'rxjs/operators/catchError';
+import { catchError } from 'rxjs/operators';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
 import { switchMap } from 'rxjs/operators/switchMap';
@@ -27,7 +27,7 @@ export class InvoiceListingComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
-  displayedColumns = ['item', 'client', 'date', 'due', 'qty', 'rate', 'tax', 'action'];
+  displayedColumns = ['item', 'client', 'qty', 'rate', 'tax', 'action'];
   dataSource = new MatTableDataSource<Invoice>();
   resultsLength = 0;
   isLoading = false;
@@ -85,7 +85,8 @@ export class InvoiceListingComponent implements OnInit {
         this.isLoading = false;
         // setTimeout(() => this.isLoading = false ,800);
         this.resultsLength = data.total;
-        return data.docs;
+        this.dataSource.data = data.docs;
+        return data;
       }),
       catchError(() => {
         this.isLoading = false;
@@ -93,10 +94,9 @@ export class InvoiceListingComponent implements OnInit {
         return observableOf([]);
       })
     )
-
     .subscribe(data => {
-      console.log(data);
-      this.dataSource.data = data;
+      console.log("HRE +++ ",data);
+      // this.dataSource.data = data;
     })
   }
 

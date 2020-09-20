@@ -95,6 +95,7 @@ export class InvoiceListingComponent implements OnInit {
     )
 
     .subscribe(data => {
+      console.log(data);
       this.dataSource.data = data;
     })
   }
@@ -151,7 +152,7 @@ export class InvoiceListingComponent implements OnInit {
 
 
   filterText(filterValue){
-    // this.isLoading = true;
+    this.isLoading = true;
     filterValue = filterValue.trim();
     this.paginator.pageIndex = 0;
     return this.invoiceService.getInvoices(
@@ -166,32 +167,32 @@ export class InvoiceListingComponent implements OnInit {
     .subscribe(data => {
       this.dataSource.data = data.docs;
       this.resultsLength = data.total;
-      // this.isLoading = false;
+      this.isLoading = false;
     }, err => this.errorHandler(err, 'Failed to search invoices'));
 
 
   }
 
 
-  private populateInvoices(){
-    this.isLoading = true;
-    this.invoiceService.getInvoices({ 
-      page: this.paginator.pageIndex,
-      perPage: this.paginator.pageSize,
-      sortField: this.sort.active,
-      sortDir: this.sort.direction,
-      filter: ''
-    }).subscribe(
-      data => {
-        // data.forEach((e,i) => e.pos = i+1, data);
-        // this.dataSource = data.docs;
-        this.resultsLength = data.total;
+  // private populateInvoices(){
+  //   this.isLoading = true;
+  //   this.invoiceService.getInvoices({ 
+  //     page: this.paginator.pageIndex,
+  //     perPage: this.paginator.pageSize,
+  //     sortField: this.sort.active,
+  //     sortDir: this.sort.direction,
+  //     filter: ''
+  //   }).subscribe(
+  //     data => {
+  //       // data.forEach((e,i) => e.pos = i+1, data);
+  //       // this.dataSource = data.docs;
+  //       this.resultsLength = data.total;
         
-        setTimeout(() => this.isLoading = false ,800);
-      }, 
-      err => this.errorHandler(err, 'Failed to load invoices')
-    );
-  }
+  //       setTimeout(() => this.isLoading = false ,800);
+  //     }, 
+  //     err => this.errorHandler(err, 'Failed to load invoices')
+  //   );
+  // }
 
   private errorHandler(error, message){
     this.isLoading = false;

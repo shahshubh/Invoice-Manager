@@ -1,6 +1,6 @@
 <mat-toolbar >
   <mat-form-field color="accent" class="search-div" >
-    <input matInput (keyup) = "filterText($event.target.value)" placeholder="Search" />
+    <input matInput (keyup) = "filterText($event.target.value)" placeholder="Search item" />
   </mat-form-field>
   <mat-icon>search</mat-icon>
   <!-- <h3>Invoices</h3> -->
@@ -11,12 +11,14 @@
   </div>
 </mat-toolbar>
 
-<div class="table-container mat-elevation-z8">
-  <div class="mat-elevation-z8" >
-    <div class="loading-shade" *ngIf="isLoading" >
-      <mat-spinner color="accent" *ngIf="isLoading" ></mat-spinner>
-    </div>
+<div class="mat-elevation-z8" >
+  <div class="loading-shade" *ngIf="isLoading" >
+    <mat-spinner color="accent" *ngIf="isLoading" ></mat-spinner>
   </div>
+</div>
+
+<div class="table-container mat-elevation-z8">
+
 
   <mat-table #table [dataSource]="dataSource" matSort >
 

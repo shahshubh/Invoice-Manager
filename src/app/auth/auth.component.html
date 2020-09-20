@@ -16,7 +16,7 @@
               <label for="inputPassword">Password</label>
             </div>
 
-            <div class="custom-control custom-checkbox mb-3">
+            <div *ngIf="title === 'Login'" class="custom-control custom-checkbox mb-3">
               <!-- <input type="checkbox" class="custom-control-input" id="customCheck1"> -->
               <div (click)="forgotPassHandler()" class="forgot-password-div" >Forgot Password ?</div>
             </div>

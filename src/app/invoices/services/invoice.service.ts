@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Invoice, InvoicePaginationRsp } from '../models/invoice';
+import { environment } from '../../../environments/environment';
 
-const BASE_URL = 'http://localhost:3000/api';
+const BASE_URL = environment.apiUrl;
 @Injectable()
 export class InvoiceService {
   constructor(private httpClient : HttpClient) {}

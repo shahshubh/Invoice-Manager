@@ -59,7 +59,12 @@ export class AuthComponent implements OnInit {
           data => {
             console.log(data);
             this.isLoading = false;
-            this.router.navigate(['/dashboard', 'invoices']);
+            this.snackBar.open('User created successfully! Please Login', 'Success', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'end'
+            });
+            this.router.navigate(['/login']);
           },
           err => this.errorHandler(err, err.error.err)
         );

@@ -1,5 +1,7 @@
 <div>
-    <button mat-raised-button color="accent" type="button" (click)="downloadBtnHandler()" style="margin-bottom: 10px;" >Download</button>
+    <button mat-raised-button color="accent" type="button" (click)="downloadBtnHandler()" style="margin-bottom: 10px;" >
+        <mat-icon>save_alt</mat-icon> Download 
+    </button>
     <mat-progress-bar *ngIf="isResultsLoading" mode="indeterminate" style="margin-bottom: 10px;margin-top: 10px; width: 75%;" ></mat-progress-bar>
 
     <div id="invoice" id="content-to-print">

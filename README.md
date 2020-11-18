@@ -3,9 +3,9 @@
 # Invoice Manager
 
 [![](https://img.shields.io/badge/Made_with-Angular-red?style=for-the-badge&logo=angular)](https://angular.io/docs)
-[![](https://img.shields.io/badge/Database-MongoDB-red?style=for-the-badge&logo=mongodb)](mongodb.com "MongoDB")
-[![](https://img.shields.io/badge/IDE-Visual_Studio_Code-red?style=for-the-badge&logo=visual-studio-code)](https://code.visualstudio.com/ "Visual Studio Code")
-[![](https://img.shields.io/badge/Deployed_on-Heroku-red?style=for-the-badge&logo=heroku)](https://www.heroku.com/ "Heroku")
+[![](https://img.shields.io/badge/Database-MongoDB-green?style=for-the-badge&logo=mongodb)](mongodb.com "MongoDB")
+[![](https://img.shields.io/badge/IDE-Visual_Studio_Code-blue?style=for-the-badge&logo=visual-studio-code)](https://code.visualstudio.com/ "Visual Studio Code")
+[![](https://img.shields.io/badge/Deployed_on-Heroku-purple?style=for-the-badge&logo=heroku)](https://www.heroku.com/ "Heroku")
 
 </div>
 
@@ -41,23 +41,19 @@ MEAN Stack mini-project
 
 </div>
 
-<!-- ## To run the project locally
+## To run the project locally
 
-* clone this Repository by `git clone https://github.com/shahshubh/socialApp-MERN.git`.
-* Inside /server directory create a .env file and add these
-    - `MONGO_URI=mongodb+srv://socialapp:socialapp@cluster0-o6fur.mongodb.net/test?retryWrites=true&w=majority`
-    - `PORT=8080`
-    - `JWT_SECRET=any-random-string-of-any-length`
-    - `CLIENT_URL=http://localhost:3000`
-* Inside /client directory create a .env file and add
-    - `REACT_APP_API_URL=http://localhost:8080`
-* Change the directory to /server in the terminal and run:
+* clone this Repository by `git clone https://github.com/shahshubh/Invoice-Manager.git`.
+* In /src/environments/environment.ts file change
+    ```
+    production: false,
+    apiUrl: 'https://invoicemanager2-server.herokuapp.com/api'
+    ```
+* Run the following in terminal in sequence
+    - `cd Invoice-Manager`
     - `npm install`
-    - `node app.js`
-* Change the directory to /client in the terminal and run:
-    - `npm install`
-    - `npm start`
-* Open your browser and enter url `http://localhost:3000` -->
+    - `ng s`
+* Open your browser and enter url `http://localhost:4200`
 
 ## Tech Stack
 

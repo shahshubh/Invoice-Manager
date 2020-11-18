@@ -64,5 +64,14 @@ MEAN Stack mini-project
 ```
 MEAN Stack
 
-MongoDB | Express | Angular | Nodejs
+- MongoDB
+- Express
+- Angular
+- Nodejs
 ```
+
+## Stargazers
+[![Stargazers repo roster for @shahshubh/Invoice-Manager](https://reporoster.com/stars/shahshubh/Invoice-Manager)](https://github.com/shahshubh/Invoice-Manager/stargazers)
+
+<br/>
+<p align="center"><a href="https://github.com/shahshubh/Invoice-Manager#"><img src="./demo/backToTopButton.png" alt="Back to top" height="29"/></a></p>

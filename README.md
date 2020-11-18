@@ -59,7 +59,7 @@ MEAN Stack mini-project
     - `npm start`
 * Open your browser and enter url `http://localhost:3000` -->
 
-## Tech Stack of this Project
+## Tech Stack
 
 ```
 MEAN Stack
